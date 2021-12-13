@@ -27,7 +27,7 @@ public class LsmDAO implements DAO {
 
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private final DAOConfig config;
-    private final Logger LOG = LoggerFactory.getLogger(LsmDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LsmDAO.class);
     private final AtomicInteger memoryConsumption = new AtomicInteger();
     private final ExecutorService flushExecutor = Executors.newSingleThreadExecutor();
     private final ExecutorService compactExecutor = Executors.newSingleThreadExecutor();
@@ -65,7 +65,7 @@ public class LsmDAO implements DAO {
                                 performCompact();
                             }
                         } catch (IOException e) {
-                            logger.error("Flush failed...", e);
+                            LOG.error("Flush failed...", e);
                             memoryConsumption.addAndGet(oldMemoryConsumption);
                             throw new UncheckedIOException(e);
                         }
